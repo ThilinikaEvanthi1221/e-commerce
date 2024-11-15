@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Shop</title>
+  <link rel="stylesheet" href="products.component.css">
+</head>
+<body>
+  <header>
+    <!-- Header content can go here -->
+  </header>
+
+  <section class="product-section">
+    <h2>Our Products</h2>
+  
+    <div class="product-grid">
+      <!-- Loop through the regular products array -->
+      <div *ngFor="let product of products" class="product-card">
+        <img [src]="product.image" alt="{{ product.name }}">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <span class="price">${{ product.price }}</span>
+        <button (click)="addToCart(product)">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+  
+  <section class="product-section">
+    <h2>Special Offers</h2>
+  
+    <div class="product-grid">
+      <!-- Loop through the specialOffers array -->
+      <div *ngFor="let offer of specialOffers" class="product-card">
+        <img [src]="offer.image" alt="{{ offer.name }}">
+        <h3>{{ offer.name }}</h3>
+        <p>{{ offer.description }}</p>
+        <span class="price">${{ offer.price }}</span>
+        <button (click)="addToCart(offer)">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
