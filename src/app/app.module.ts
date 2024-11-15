@@ -9,24 +9,26 @@ import { ProductsComponent } from './products/products.component';  // Import Pr
 import { CartComponent } from './cart/cart.component';  // Import CartComponent
 import { appRoutes } from './app.routes';  // Import appRoutes
 import { BannerComponent } from './banner/banner.component';
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
-         // Declare AppComponent here
-      // Declare BannerComponent here
-   // Declare ProductsComponent here
-          // Declare CartComponent here
   ],
   imports: [
     BrowserModule,
     CommonModule,               // Import CommonModule for ngIf, ngFor, etc.
     RouterModule.forRoot(appRoutes),
+    FormsModule,
     AppComponent,
+    LoginComponent,
     ProductsComponent, 
     HeaderComponent,   // Declare HeaderComponent here
     FooterComponent,
     CartComponent,   // Declare FooterComponent here
-    BannerComponent  // Setup routing
+    BannerComponent,  
+    SignUpComponent
   ],
   providers: [], // Bootstrap AppComponent
 })
