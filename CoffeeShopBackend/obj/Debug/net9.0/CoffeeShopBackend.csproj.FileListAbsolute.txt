@@ -1,0 +1,8 @@
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.csproj.AssemblyReference.cache
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.AssemblyInfoInputs.cache
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.AssemblyInfo.cs
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.csproj.CoreCompileInputs.cache
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.sourcelink.json

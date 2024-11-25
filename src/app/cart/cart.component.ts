@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CartService } from '../cart.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-  standalone: true,  // Assuming you're using a standalone component
+  standalone: true,  
   imports: [CommonModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
@@ -12,19 +12,27 @@ import { CommonModule } from '@angular/common';
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.cartItems = this.cartService.getCartItems();
+    
+    this.loadCartItems();
   }
 
+  loadCartItems() {
+    
+    this.cartItems = this.cartService.getCartItems();
+    this.cdr.detectChanges();  
+  }
+
+ 
   removeItem(item: any) {
     this.cartService.removeFromCart(item);
-    this.cartItems = this.cartService.getCartItems(); // Refresh cart after removal
+    this.loadCartItems();  
   }
-
+  
   clearCart() {
     this.cartService.clearCart();
-    this.cartItems = this.cartService.getCartItems(); // Refresh cart to empty after clearing
+    this.loadCartItems();  
   }
 }

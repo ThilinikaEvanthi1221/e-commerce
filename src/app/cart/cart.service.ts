@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'  // Ensures CartService is a singleton and available throughout the app
+  providedIn: 'root',
 })
 export class CartService {
-  private cartItems: any[] = [];  // Array to store cart items
+  private cartItems: any[] = [];
+  private cartItemsSubject: BehaviorSubject<any[]> = new BehaviorSubject(this.cartItems);
 
   constructor() {}
 
-  // Method to get cart items
-  getCartItems(): any[] {
-    return [...this.cartItems];  // Return a copy to avoid direct mutation
+    getCartItems() {
+    return this.cartItemsSubject.asObservable();  
   }
 
-  // Method to add an item to the cart
-  addToCart(item: any) {
+    addToCart(item: any) {
     this.cartItems.push(item);
+    this.cartItemsSubject.next([...this.cartItems]);  
   }
 
-  // Method to remove an item from the cart
   removeFromCart(item: any) {
     const index = this.cartItems.indexOf(item);
     if (index > -1) {
-      this.cartItems.splice(index, 1);  // Remove the item from the cart array
+      this.cartItems.splice(index, 1);
+      this.cartItemsSubject.next([...this.cartItems]);  
     }
   }
 
-  // Method to clear all items in the cart
-  clearCart() {
-    this.cartItems = [];  // Empty the cart
+   clearCart() {
+    this.cartItems = [];
+    this.cartItemsSubject.next([...this.cartItems]);  
   }
 }

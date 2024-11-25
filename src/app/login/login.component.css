@@ -1,4 +1,3 @@
-/* Login container */
 .login-container {
     max-width: 400px;
     margin: 50px auto;
@@ -10,8 +9,7 @@
     font-family: 'Georgia', serif;
   }
   
-  /* Heading */
-  h2 {
+    h2 {
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
@@ -20,14 +18,12 @@
     letter-spacing: 1px;
   }
   
-  /* Form group styling */
-  .form-group {
+    .form-group {
     margin-bottom: 20px;
     text-align: left;
   }
   
-  /* Label styling */
-  label {
+    label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
@@ -35,8 +31,7 @@
     font-size: 14px;
   }
   
-  /* Input fields */
-  input {
+    input {
     width: 100%;
     padding: 12px;
     margin-bottom: 10px;
@@ -55,14 +50,13 @@
     outline: none;
   }
   
-  /* Submit button */
-  button.btn {
+    button.btn {
     width: 100%;
     padding: 12px;
     background: linear-gradient(135deg, #8b5a3c, #6f4e37);
     border: none;
     color: white;
-    border-radius: 50px; /* Rounded button */
+    border-radius: 50px; 
     font-size: 18px;
     font-weight: bold;
     text-transform: uppercase;
@@ -78,7 +72,6 @@
     box-shadow: 0 8px 20px rgba(111, 78, 55, 0.7);
   }
   
-  /* Error message */
   .error-message {
     color: #a94442;
     font-size: 14px;
@@ -86,8 +79,7 @@
     font-weight: bold;
   }
   
-  /* Signup link */
-  .signup-link {
+   .signup-link {
     margin-top: 15px;
     font-size: 14px;
     color: #6f4e37;
@@ -98,17 +90,16 @@
     color: #8b5a3c;
     font-weight: bold;
     transition: 0.3s ease;
-    cursor: pointer; /* Ensures pointer cursor on hover */
+    cursor: pointer; 
   }
   
   .signup-link a:hover {
     color: #5c4033;
     text-decoration: underline;
-    cursor: pointer; /* Ensures pointer cursor on hover */
+    cursor: pointer;
   }
   
-  /* Add hover effects to the container */
-  .login-container:hover {
+    .login-container:hover {
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
     transform: translateY(-5px);
     transition: all 0.3s ease;
