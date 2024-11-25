@@ -5,16 +5,17 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Align items to the left */
+    justify-content: flex-start; 
     padding: 10px 20px;
     color: #fff;
     z-index: 3;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .nav h1 {
     font-size: 24px;
     flex-shrink: 0;
-    margin-right: 500px; /* Space between h1 and the search bar */
+    margin-right: 500px; 
 }
 
 .nav div {
@@ -48,7 +49,7 @@
     display: flex;
     list-style: none;
     flex-shrink: 0;
-    margin-left: 250px; /* Space between search bar and ul list */
+    margin-left: 250px; 
 }
 
 .nav ul li {

@@ -10,14 +10,6 @@
     color: #333;
   }
   
-  /* header {
-    text-align: center;
-    padding: 20px;
-    background-color: #6b4f4f;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  } */
-  
   header h1 {
     font-size: 2.5em;
     margin-bottom: 0.2em;
@@ -44,8 +36,8 @@
   
   .product-grid {
     display: flex;
-    flex-wrap: wrap;  /* Allows the products to wrap when space is tight */
-    justify-content: space-between;  /* Space out products evenly */
+    flex-wrap: wrap;  
+    justify-content: space-between;  
     gap: 20px;
   }
   
@@ -56,13 +48,13 @@
     overflow: hidden;
     text-align: center;
     padding: 20px;
-    width: 30%; /* Each product takes up about 30% of the row */
+    width: 30%; 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .product-card:hover {
-    transform: translateY(-5px);  /* Slight lift effect on hover */
+    transform: translateY(-5px);  
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   }
   

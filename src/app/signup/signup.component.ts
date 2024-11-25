@@ -1,4 +1,3 @@
-// signup.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -20,20 +19,16 @@ export class SignUpComponent {
 
   constructor(private router: Router) {}
 
-  // Submit handler for the form
-  onSubmit() {
+    onSubmit() {
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match!';
     } else {
       this.errorMessage = '';
-      // Handle successful signup here (e.g., call an API)
-      // Redirect to login page after successful signup
       this.router.navigate(['/login']);
     }
   }
 
-  // Validate the form for enabling the submit button
-  isFormValid(): boolean {
+    isFormValid(): boolean {
     return (
       this.name !== '' &&
       this.email !== '' &&

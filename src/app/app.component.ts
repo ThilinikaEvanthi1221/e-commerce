@@ -1,14 +1,13 @@
-// src/app/app.component.ts
 import { Component } from '@angular/core';
-import { HeaderComponent } from './header/header.component';  // Import HeaderComponent
-import { FooterComponent } from './footer/footer.component';  // Import FooterComponent
-import { RouterOutlet } from '@angular/router';  // Import RouterOutlet
+import { HeaderComponent } from './header/header.component';  
+import { FooterComponent } from './footer/footer.component';  
+import { RouterOutlet } from '@angular/router';  
 import { BannerComponent } from './banner/banner.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,  // AppComponent is standalone
-  imports: [HeaderComponent, FooterComponent, RouterOutlet, BannerComponent],  // Import Header and Footer components here
+  standalone: true,  
+  imports: [HeaderComponent, FooterComponent, RouterOutlet, BannerComponent],  
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })

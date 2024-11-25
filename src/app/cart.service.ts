@@ -4,27 +4,23 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CartService {
-  private cart: any[] = [];  // Holds the cart items
+  private cart: any[] = [];  
 
   constructor() {}
 
-  // Get items in the cart
-  getCartItems() {
+    getCartItems() {
     return this.cart;
   }
 
-  // Add item to cart
-  addToCart(product: any) {
+   addToCart(product: any) {
     this.cart.push(product);
   }
 
-  // Remove item from cart
   removeFromCart(product: any) {
-    this.cart = this.cart.filter(item => item !== product);  // Remove product from cart
+    this.cart = this.cart.filter(item => item !== product);  
   }
 
-  // Clear all items from cart
   clearCart() {
-    this.cart = [];  // Empty the cart
+    this.cart = [];  
   }
 }
