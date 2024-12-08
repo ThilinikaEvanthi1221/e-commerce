@@ -1,0 +1,36 @@
+<div class="account-container">
+    <h1>My Account</h1>
+  
+    <!-- User Profile Section -->
+    <div class="profile-section">
+      <h2>Profile Details</h2>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Phone:</strong> {{ user.phone }}</p>
+      <button (click)="editProfile()">Edit Profile</button>
+    </div>
+  
+    <!-- Order History Section -->
+    <div class="order-history-section">
+      <h2>Order History</h2>
+      <div *ngIf="orders.length > 0; else noOrders">
+        <div class="order" *ngFor="let order of orders">
+          <p><strong>Order ID:</strong> {{ order.id }}</p>
+          <p><strong>Date:</strong> {{ order.date }}</p>
+          <p><strong>Total:</strong> ${{ order.total }}</p>
+          <button (click)="viewOrder(order.id)">View Details</button>
+        </div>
+      </div>
+      <ng-template #noOrders>
+        <p>You have no orders yet. Start shopping now!</p>
+      </ng-template>
+    </div>
+  
+    <!-- Account Settings Section -->
+    <div class="settings-section">
+      <h2>Account Settings</h2>
+      <button (click)="changePassword()">Change Password</button>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </div>
+  

@@ -3,6 +3,16 @@ using CoffeeShopBackend.Services;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +48,24 @@ app.MapControllers();
 
 app.Run();
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+
 // MongoDBSettings class to bind configuration settings
 public class MongoDBSettings
 {
@@ -48,10 +76,16 @@ public class MongoDBSettings
 // Product model
 public class Product
 {
-    public string Id { get; set; } = null!;
+    [BsonId]  // Mark this property as the MongoDB _id
+    [BsonRepresentation(BsonType.ObjectId)] 
+    public ObjectId? Id { get; set; } = null!;
+    [BsonElement("name")]
     public string Name { get; set; } = null!;
+     [BsonElement("description")]
     public string Description { get; set; } = null!;
+    [BsonElement("price")]
     public decimal Price { get; set; }
+    [BsonElement("image")]
     public string ImageUrl { get; set; } = null!;
 }
 
@@ -73,3 +107,5 @@ public class ProductService
     public async Task AddProductAsync(Product product) =>
         await _products.InsertOneAsync(product);
 }
+
+
