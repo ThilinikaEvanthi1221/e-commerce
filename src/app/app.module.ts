@@ -12,6 +12,8 @@ import { BannerComponent } from './banner/banner.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './signup/signup.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { SignUpComponent } from './signup/signup.component';
     FooterComponent,
     CartComponent,   
     BannerComponent,  
-    SignUpComponent
+    SignUpComponent,
+    HttpClientModule,
+    AccountComponent,
   ],
   providers: [], 
 })

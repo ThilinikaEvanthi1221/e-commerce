@@ -2,38 +2,73 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from '../services/user.service'; // Import UserService
 
 @Component({
   selector: 'app-signup',
-  standalone: true,  
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, HttpClientModule],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.css'],
+  providers: [UserService]  // Ensure UserService is provided here
 })
 export class SignUpComponent {
-  name: string = '';
+  username: string = '';  // Use 'username' instead of 'name'
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
-    onSubmit() {
+  onSubmit() {
+    // Check if passwords match
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match!';
+      return; // Stop form submission if passwords do not match
     } else {
+      // Reset error message before sending the request
       this.errorMessage = '';
-      this.router.navigate(['/login']);
+
+      // Prepare user data
+      const user = {
+        username: this.username,  // Use 'username' here
+        email: this.email,
+        password: this.password
+      };
+
+      // Call the register method from UserService to submit user data
+      this.userService.register(user).subscribe(
+        (response) => {
+          // Navigate to the login page after successful registration
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          // Handle errors (e.g., email already exists)
+          if (error.status === 400) {
+            this.errorMessage = 'User registration failed. Please try again.';
+          } else {
+            this.errorMessage = 'An error occurred. Please try again later.';
+          }
+        }
+      );
     }
   }
 
-    isFormValid(): boolean {
-    return (
-      this.name !== '' &&
-      this.email !== '' &&
-      this.password !== '' &&
-      this.password === this.confirmPassword
-    );
+  isFormValid(): boolean {
+    const isValidUsername = this.username.trim() !== '';
+    const isValidEmail = this.email.trim() !== '';
+    const isValidPassword = this.password.trim() !== '';
+    const isPasswordsMatch = this.password === this.confirmPassword;
+  
+    console.log('Username Valid:', isValidUsername);
+    console.log('Email Valid:', isValidEmail);
+    console.log('Password Valid:', isValidPassword);
+    console.log('Passwords Match:', isPasswordsMatch);
+  
+    const isValid = isValidUsername && isValidEmail && isValidPassword && isPasswordsMatch;
+    console.log('Form Valid:', isValid);  // Final validation check
+    return isValid;
   }
 }
