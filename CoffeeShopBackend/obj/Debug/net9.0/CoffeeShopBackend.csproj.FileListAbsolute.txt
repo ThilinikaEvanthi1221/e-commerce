@@ -152,3 +152,4 @@ C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\bin\D
 C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\bin\Debug\net9.0\CoffeeShopBackend.pdb
 C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\CoffeeShopBackend.genruntimeconfig.cache
 C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\obj\Debug\net9.0\ref\CoffeeShopBackend.dll
+C:\Users\Thilinika\Desktop\work\angular1\project-website\CoffeeShopBackend\bin\Debug\net9.0\BCrypt.Net-Next.dll
