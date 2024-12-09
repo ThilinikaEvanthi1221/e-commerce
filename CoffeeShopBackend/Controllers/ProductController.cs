@@ -1,35 +1,47 @@
-using CoffeeShopBackend.Models;
-using CoffeeShopBackend.Services;
 using Microsoft.AspNetCore.Mvc;
+using CoffeeShopBackend.Services;
+using MongoDB.Bson;
+using CoffeeShopBackend.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CoffeeShopBackend.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly ProductService _productService;
 
-        // Constructor for dependency injection
         public ProductController(ProductService productService)
         {
             _productService = productService;
         }
 
-        // GET api/products - Fetch all products
+        // GET api/products
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> Get()
+        public async Task<IActionResult> GetAllProducts()
         {
-            var products = await _productService.GetProductsAsync(); 
-            return Ok(products); // Returns the list of products as JSON
+            List<Product> products = await _productService.GetAllProductsAsync();
+            return Ok(products);
         }
 
-        // POST api/products - Create a new product
-        [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Product product)
+        // GET api/products/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(string id)
         {
-            await _productService.AddProductAsync(product); // Use AddProductAsync instead of Create
-            return CreatedAtAction(nameof(Get), new { id = product.Id }, product); 
+            // Convert string to ObjectId
+            var objectId = new ObjectId(id);
+            var product = await _productService.GetProductByIdAsync(objectId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
         }
+
+        // Other methods (POST, PUT, DELETE)...
     }
 }

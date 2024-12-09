@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using CoffeeShopBackend.Config;
 using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace CoffeeShopBackend.Services
 {
@@ -16,12 +17,35 @@ namespace CoffeeShopBackend.Services
             _products = database.GetCollection<Product>("Products");
         }
 
-        // Get all products synchronously
-        public List<Product> Get() =>
-            _products.Find(_ => true).ToList();  // Using synchronous version of ToList()
+        // Create a new product
+        public async Task CreateProductAsync(Product newProduct)
+        {
+            await _products.InsertOneAsync(newProduct);
+        }
 
-        // Create a new product synchronously
-        public void Create(Product product) =>
-            _products.InsertOne(product);  // Using synchronous version of InsertOne
+        // Get all products
+        public async Task<List<Product>> GetAllProductsAsync()
+        {
+            return await _products.Find(_ => true).ToListAsync();
+        }
+
+        // Get product by ID
+        public async Task<Product> GetProductByIdAsync(ObjectId id)
+        {
+            var product = await _products.Find(p => p.Id == id).FirstOrDefaultAsync();
+            return product;
+        }
+
+        // Update a product by ID
+        public async Task UpdateProductAsync(ObjectId id, Product updatedProduct)
+        {
+            await _products.ReplaceOneAsync(p => p.Id == id, updatedProduct);
+        }
+
+        // Delete a product by ID
+        public async Task DeleteProductAsync(ObjectId id)
+        {
+            await _products.DeleteOneAsync(p => p.Id == id);
+        }
     }
 }
