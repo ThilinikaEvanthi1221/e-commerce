@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "nbisqTyzb1A=",
+  "dgSpecHash": "RF9NRLauJC4=",
   "success": true,
   "projectFilePath": "C:\\Users\\Thilinika\\Desktop\\work\\angular1\\project-website\\CoffeeShopBackend\\CoffeeShopBackend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Thilinika\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Thilinika\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\Thilinika\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\Thilinika\\.nuget\\packages\\google.protobuf\\3.26.1\\google.protobuf.3.26.1.nupkg.sha512",

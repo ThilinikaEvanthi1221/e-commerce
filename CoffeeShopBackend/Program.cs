@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Register MongoDBSettings configuration from appsettings.json
@@ -25,6 +23,35 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 
 // Register ProductService with transient lifetime, since it's stateless
 builder.Services.AddTransient<ProductService>();
+
+// Add Authentication
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // Allows requests from any origin
+              .AllowAnyMethod()   // Allows any HTTP method (GET, POST, etc.)
+              .AllowAnyHeader();  // Allows any header
+    });
+});
 
 // Add MVC or API controllers
 builder.Services.AddControllers();
@@ -43,28 +70,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Enable CORS
+app.UseCors("AllowAll");
+
+// Enable Authentication and Authorization
+app.UseAuthentication();
+app.UseAuthorization();
+
 // API routes are now mapped using controllers, no need for manual MapGet
 app.MapControllers();
 
 app.Run();
-
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
-    });
-
-builder.Services.AddAuthorization();
-
 
 // MongoDBSettings class to bind configuration settings
 public class MongoDBSettings
@@ -81,7 +97,7 @@ public class Product
     public ObjectId? Id { get; set; } = null!;
     [BsonElement("name")]
     public string Name { get; set; } = null!;
-     [BsonElement("description")]
+    [BsonElement("description")]
     public string Description { get; set; } = null!;
     [BsonElement("price")]
     public decimal Price { get; set; }
@@ -107,5 +123,3 @@ public class ProductService
     public async Task AddProductAsync(Product product) =>
         await _products.InsertOneAsync(product);
 }
-
-

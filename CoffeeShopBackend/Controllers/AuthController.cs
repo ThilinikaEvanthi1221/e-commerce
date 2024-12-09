@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using CoffeeShopBackend.Services;
 using CoffeeShopBackend.Models;
-using System.Security.Cryptography;
+using BCrypt.Net;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -22,13 +23,14 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] User user)
     {
+        // Check if username already exists
         if (await _userService.GetUserByUsernameAsync(user.Username) != null)
             return BadRequest("Username already exists.");
 
-        // Hash the password
-        using var hmac = new HMACSHA256();
-        user.PasswordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(user.PasswordHash)));
+        // Hash the password using BCrypt
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
 
+        // Add user to the database
         await _userService.AddUserAsync(user);
         return Ok("User registered successfully.");
     }
@@ -36,17 +38,16 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] User loginDetails)
     {
+        // Retrieve the user from the database by username
         var user = await _userService.GetUserByUsernameAsync(loginDetails.Username);
         if (user == null)
             return Unauthorized("Invalid username.");
 
-        // Verify password
-        using var hmac = new HMACSHA256();
-        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDetails.PasswordHash));
-        if (Convert.ToBase64String(computedHash) != user.PasswordHash)
+        // Verify the provided password against the stored password hash
+        if (!BCrypt.Net.BCrypt.Verify(loginDetails.PasswordHash, user.PasswordHash))
             return Unauthorized("Invalid password.");
 
-        // Generate JWT
+        // Generate JWT token upon successful login
         var token = GenerateJwtToken(user);
         return Ok(new { Token = token });
     }
