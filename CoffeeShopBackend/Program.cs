@@ -105,21 +105,3 @@ public class Product
     public string ImageUrl { get; set; } = null!;
 }
 
-// ProductService class to interact with MongoDB
-public class ProductService
-{
-    private readonly IMongoCollection<Product> _products;
-
-    // Constructor receives MongoClient and MongoDBSettings via dependency injection
-    public ProductService(IMongoClient mongoClient, IOptions<MongoDBSettings> mongoSettings)
-    {
-        var database = mongoClient.GetDatabase(mongoSettings.Value.DatabaseName);
-        _products = database.GetCollection<Product>("Products");
-    }
-
-    public async Task<List<Product>> GetProductsAsync() =>
-        await _products.Find(_ => true).ToListAsync();
-
-    public async Task AddProductAsync(Product product) =>
-        await _products.InsertOneAsync(product);
-}
