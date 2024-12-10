@@ -20,5 +20,13 @@ namespace CoffeeShopBackend.Models
         
         [BsonElement("image")]
         public string ImageUrl { get; set; }
+
+         public Product()
+    {
+        if (Id == ObjectId.Empty)
+        {
+            Id = ObjectId.GenerateNewId();
+        }
+    }
     }
 }

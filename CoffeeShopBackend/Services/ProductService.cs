@@ -18,10 +18,17 @@ namespace CoffeeShopBackend.Services
         }
 
         // Create a new product
-        public async Task CreateProductAsync(Product newProduct)
-        {
-            await _products.InsertOneAsync(newProduct);
-        }
+// Create a new product
+public async Task CreateProductAsync(Product newProduct)
+{
+    if (newProduct.Id == ObjectId.Empty) // Check if the ObjectId is empty
+    {
+        newProduct.Id = ObjectId.GenerateNewId(); // Generate new ObjectId
+    }
+    await _products.InsertOneAsync(newProduct);
+}
+
+
 
         // Get all products
         public async Task<List<Product>> GetAllProductsAsync()
