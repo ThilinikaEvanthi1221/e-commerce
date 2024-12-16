@@ -19,6 +19,7 @@ export class SignUpComponent {
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -30,6 +31,7 @@ export class SignUpComponent {
     } else {
       // Reset error message before sending the request
       this.errorMessage = '';
+      this.successMessage = '';  // Reset success message
 
       // Prepare user data
       const user = {
@@ -41,13 +43,20 @@ export class SignUpComponent {
       // Call the register method from UserService to submit user data
       this.userService.register(user).subscribe(
         (response) => {
-          // Navigate to the login page after successful registration
-          this.router.navigate(['/login']);
+          // Handle successful registration
+          this.successMessage = 'Registration successful! Redirecting to login page...';
+          setTimeout(() => {
+            // Navigate to the login page after successful registration
+            this.router.navigate(['/login']);
+          }, 2000);
         },
         (error) => {
+          console.log('Error:', error);
           // Handle errors (e.g., email already exists)
           if (error.status === 400) {
-            this.errorMessage = 'User registration failed. Please try again.';
+            this.errorMessage = 'User registration failed. Please check your input and try again.';
+          } else if (error.status === 409) {
+            this.errorMessage = 'Email or username already exists. Please try a different one.';
           } else {
             this.errorMessage = 'An error occurred. Please try again later.';
           }

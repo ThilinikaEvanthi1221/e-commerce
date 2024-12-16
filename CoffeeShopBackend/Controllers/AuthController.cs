@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;  // For logging
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,26 +14,53 @@ public class AuthController : ControllerBase
 {
     private readonly UserService _userService;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<AuthController> _logger;  // Inject logger
 
-    public AuthController(UserService userService, IConfiguration configuration)
+    // Constructor to initialize user service and configuration
+    public AuthController(UserService userService, IConfiguration configuration, ILogger<AuthController> logger)
     {
         _userService = userService;
         _configuration = configuration;
+        _logger = logger;  // Initialize logger
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] User user)
     {
+        if (user == null)
+        {
+            return BadRequest("Invalid user data.");
+        }
+
+        // Ensure the model is valid
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState); // Return validation errors
+        }
+
         // Check if username already exists
-        if (await _userService.GetUserByUsernameAsync(user.Username) != null)
+        var existingUser = await _userService.GetUserByUsernameAsync(user.Username);
+        if (existingUser != null)
+        {
             return BadRequest("Username already exists.");
+        }
 
-        // Hash the password using BCrypt
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+        // Hash the password using BCrypt (Ensure the plain password is being hashed)
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);  // Hash the plain password
+        user.PasswordHash = hashedPassword; // Store the hashed password in the database
 
-        // Add user to the database
-        await _userService.AddUserAsync(user);
-        return Ok("User registered successfully.");
+        try
+        {
+            // Add user to the database
+            await _userService.AddUserAsync(user);
+            return Ok("User registered successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Log the error (you can also log it in a logging service)
+            _logger.LogError(ex, "Error occurred while registering the user.");
+            return StatusCode(500, "An error occurred while processing your request. Please try again later.");
+        }
     }
 
     [HttpPost("login")]
@@ -41,11 +69,15 @@ public class AuthController : ControllerBase
         // Retrieve the user from the database by username
         var user = await _userService.GetUserByUsernameAsync(loginDetails.Username);
         if (user == null)
+        {
             return Unauthorized("Invalid username.");
+        }
 
         // Verify the provided password against the stored password hash
-        if (!BCrypt.Net.BCrypt.Verify(loginDetails.PasswordHash, user.PasswordHash))
+        if (!BCrypt.Net.BCrypt.Verify(loginDetails.Password, user.PasswordHash))  // Compare plain password with hashed password
+        {
             return Unauthorized("Invalid password.");
+        }
 
         // Generate JWT token upon successful login
         var token = GenerateJwtToken(user);

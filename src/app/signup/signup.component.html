@@ -26,6 +26,7 @@
     </div>
   
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
   
     <button class="btn" type="submit" [disabled]="!isFormValid()">Sign Up</button>
   </form>
