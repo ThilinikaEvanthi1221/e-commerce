@@ -23,6 +23,8 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 
 // Register ProductService with transient lifetime, since it's stateless
 builder.Services.AddTransient<ProductService>();
+builder.Services.AddScoped<UserService>();
+
 
 // Add Authentication
 builder.Services.AddAuthentication("Bearer")
@@ -74,11 +76,17 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 // Enable Authentication and Authorization
+
+
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-// API routes are now mapped using controllers, no need for manual MapGet
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();
 

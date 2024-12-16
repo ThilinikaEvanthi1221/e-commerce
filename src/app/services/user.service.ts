@@ -7,17 +7,27 @@ import { User } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:5125/api/user'; // Backend URL
+  private apiUrl = 'http://localhost:5125/api/auth'; // Backend URL
 
   constructor(private http: HttpClient) {}
 
   // Register a new user
-  register(user: User): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+  register(user: { username: string, email: string, password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user, { responseType: 'text' });
+  }
+
+  // Store the JWT token in local storage upon successful registration
+  storeToken(token: string) {
+    localStorage.setItem('authToken', token);
   }
 
   // Login an existing user
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { username, password });
+  }
+
+  // Retrieve the JWT token from local storage
+  getToken(): string | null {
+    return localStorage.getItem('authToken');
   }
 }
