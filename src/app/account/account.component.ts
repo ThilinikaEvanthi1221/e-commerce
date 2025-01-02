@@ -12,14 +12,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class AccountComponent implements OnInit {
   user: any = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '123-456-7890'
+    // name: 
+    // email: 
+    // phone: 
   };
 
   orders: any[] = [
-    { id: 'ORD123', date: '2024-12-01', total: 25.99 },
-    { id: 'ORD124', date: '2024-11-25', total: 15.49 }
+    // { id: 'ORD123', date: '2024-12-01', total: 25.99 },
+    // { id: 'ORD124', date: '2024-11-25', total: 15.49 }
   ];
 
   constructor(private router: Router) {}
