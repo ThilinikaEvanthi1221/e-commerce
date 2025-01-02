@@ -8,6 +8,7 @@
           [(ngModel)]="username"
           name="username"
           required
+          autocomplete="off"
         />
         <div *ngIf="!username" class="error-message">Username is required</div>
       </div>
@@ -19,6 +20,7 @@
           [(ngModel)]="password"
           name="password"
           required
+          autocomplete="off"
         />
         <div *ngIf="!password" class="error-message">Password is required</div>
       </div>

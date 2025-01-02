@@ -3,13 +3,13 @@
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="name">Full Name:</label>
-      <input type="text" id="name" [(ngModel)]="username" name="username" required />
+      <input type="text" id="name" [(ngModel)]="username" autocomplete="off" name="username" required />
       <div *ngIf="!username" class="error-message">Username is required</div>
     </div>
   
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" id="email" [(ngModel)]="email" name="email" required />
+      <input type="email" id="email" [(ngModel)]="email" autocomplete="off" name="email" required />
       <div *ngIf="!email" class="error-message">Email is required</div>
     </div>
   
